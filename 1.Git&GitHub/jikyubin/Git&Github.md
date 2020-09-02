@@ -1,12 +1,13 @@
 
 # Git & Github
 
-먼저 
+참고
 - [인프런 git과 github](https://www.inflearn.com/course/git-and-github)의 강사님과 
+- [기초 Git 명령어 정리](https://medium.com/@pks2974/%EC%9E%90%EC%A3%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EA%B8%B0%EC%B4%88-git-%EB%AA%85%EB%A0%B9%EC%96%B4-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-533b3689db81)의 작성자님과
 - [누구나 쉽게 이해할 수 있는 git 입문](https://backlog.com/git-tutorial/kr/)
 의 작성자님께 감사인사 드립니다.
 - 그 외의 관련 글을 작성해주시는 분들 모두 감사드립니다.
-- git 공부 시작!
+- 짱 ㅠ
 
 **git 이란?**
 - 소스코드를 효과적으로 관리하기 위해 개발된 **분산형 버전 관리 시스템**  즉, 소프트웨어
@@ -110,11 +111,13 @@ commit은 현재 작업 내용의 세이브 데이터가 내 컴퓨터에만 저
 현재 선택된 브랜치를 기준으로 생성
 ```
 > git branch 브랜치 이름
+> git branch 브랜치 이름 분기하려는 커밋
 ```
 
 브렌치 삭제
 ```
 > git branch -d 브랜치 이름
+> git branch -D 브랜치 이름 // 강제 삭제
 ```
 
 - checkout
@@ -180,6 +183,106 @@ A 브랜치에서 B를 병합할때 (A<-B)
 
 병합툴도 있음,,, 
 
+## Git 되돌리기 
+
+1. Reset: 이력을 그 당시로 되돌리기 (커밋 날아감)
+2. 새로운 브랜치를 만들어서 체크아웃
+3. Revert: 이전 이력은 그대로 두고, 되돌릴 커밋의 코드만 선택한 커밋의 내용으로 바꿈
+
+git의 코드의 상태
+
+1. uncommit: 파일의 내용을 바꾼 상태
+2. staying: 파일의 변경 내역을 add하여 index에 추가한 상태 (스테이지에 올린 상태)
+3. 변경 내용을 commit으로 확정
+4. commit이 완료되면 서버에 push
+
+### Reset 
+```
+> git reset 옵션 돌아가고싶은 커밋
+```
+옵션에는 자주 쓰이는 것 hard, soft, mixed가 있음
+
+1. hard
+
+돌아가려는 커밋 이후의 모든내용(코드 포함)을 모두 지워버린다. uncommit의 전
+
+```
+> git reset --hard 커밋
+```
+
+2. soft
+
+돌아가려던 이력으로 돌아는 갔지만 이후의 내용은 지워지지 않고 인덱스(스테이지)도 남아있음
+staying상태
+
+```
+> git reset --soft 커밋
+```
+
+3. mixed 
+
+선택한 커밋으로 돌아가지만 soft처럼 내용은 지워지지않는다. 하지만 staying상태가 아닌 uncommit상태
+
+**푸쉬한 상태라면?**
+
+pull 내역이 남기 때문에 그냥 push가 안된다. 
+1. 강제 푸시 git push --force : 커밋 날라감
+2. 나눠진 분기(원격저장소)를 merge한 후에 충돌을 해결하고 commit 후 push
+
+단점: 이전 커밋이 날라가기 때문에 비추!
+
+### 브랜치를 만들어서 커밋 되돌리기
+
+원하는 분기에서 브랜치를 만든 후에 merge하기 (충돌이 발생함)
+
+### Revert 
+
+커밋이 사라지지 않음
+하지만 충돌이 날 가능성이 높다!
+```
+> git revert 커밋
+> git revert 커밋범위 // 범위로 되돌리고 싶을 경우 
+// 최신부터 순서대로 
+```
+
+>특정한 커밋만 취소하고 싶으면 revert, 또한 이미 push한 코드라면 force라는 옵션이 있지만 revert가 나을 수도...
+
+## 코드를 잠깐 저장하기 stash
+
+코드를 작성중에 잠깐 다른 브랜치로 이동하고 싶은데 commit해두기에는 애매할 경우 사용
+
+- 저장
+```
+> git stash 
+또는
+> git stash save
+```
+
+- 목록 확인
+```
+> git stash list
+```
+
+- stash 적용
+```
+> git stash apply // 가장 최근의 stash 적용
+> git stash apply stash이름
+```
+
+- 스테이지 상태까지 복원
+
+```
+> git stash apply --index
+```
+
+- 제거
+
+```
+> git stash drop // 가장 최근꺼 삭제
+> git stash drop stash 이름
+> git stash pop // apply + drop
+```
+
 ## 그 외
 
 - log
@@ -196,7 +299,13 @@ git의 내장 GUI
 > gitk
 ```
 
-콘솔에서 git 출력을 컬러로
+working directory에 있는 파일의 상태 확인
 ```
-> git config color.ui true
+> git status
 ```
+
+- HEAD 
+
+HEAD는 현재 체크아웃된 커밋을 가리킨다. 즉, 현재 작업중인 커밋 (가장 최근 커밋)
+
+작업트리에 변화를 주는 git 명령어들은 대부분 HEAD를 변경하는것으로 시작함
