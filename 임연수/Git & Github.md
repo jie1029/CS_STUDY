@@ -87,11 +87,13 @@ master만 reset됨.
 
     ⇒ 충돌이 날 수 있다.
 
-![Git%20&%20Github%2072a9cd3f0f874dd3be107dd294f4c2f7/Untitled.png](Git%20&%20Github%2072a9cd3f0f874dd3be107dd294f4c2f7/Untitled.png)
+https://user-images.githubusercontent.com/42796949/91921315-27b54800-ed06-11ea-99f7-346facfb3dff.png
+
 
 reset은 commit이 사라진다.
 
-![Git%20&%20Github%2072a9cd3f0f874dd3be107dd294f4c2f7/Untitled%201.png](Git%20&%20Github%2072a9cd3f0f874dd3be107dd294f4c2f7/Untitled%201.png)
+https://user-images.githubusercontent.com/42796949/91921303-2421c100-ed06-11ea-9616-d519a214a377.png
+
 
 revert는 commit이 남아있다.
 
