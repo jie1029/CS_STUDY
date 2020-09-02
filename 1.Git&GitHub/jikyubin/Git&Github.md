@@ -302,3 +302,17 @@ working directory에 있는 파일의 상태 확인
 HEAD는 현재 체크아웃된 커밋을 가리킨다. 즉, 현재 작업중인 커밋 (가장 최근 커밋)
 
 작업트리에 변화를 주는 git 명령어들은 대부분 HEAD를 변경하는것으로 시작함
+
+- ^는 부모
+- ~는 상대위치 접근
+
+예시
+
+```
+> git reset HEAD^ // HEAD의 부모, 한 커밋 위까지 초기화
+> git reset HEAD~4 // HEAD로부터 4커밋 위 까지 초기화
+> git revert --no-commit HEAR~3.. 
+또는 
+> git revert --no-commit master~3..master // 3번째 뒤에 커밋부터 최근 커밋까지
+
+```
